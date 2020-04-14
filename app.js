@@ -20,8 +20,8 @@ function criarCard() {
     };
     
     // set() metodo que cria dados na url passada 
-    // o metodo child ele acessa no pai criando um no filho.
-    ref.child(card.nome).set(card).then(() =>{
+    //metodo push e um metodo que cria um id unico, gerado em um hash de acordo com o date time que foi postado
+    ref.push().set(card).then(() =>{
         adicionaCardATela(card);
     });
 };
