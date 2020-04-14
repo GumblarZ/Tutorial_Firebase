@@ -54,7 +54,32 @@ function descurtir(id) {
  * Espera o evento de que a DOM está pronta para executar algo
  */
 document.addEventListener("DOMContentLoaded", function () {
-    
+    //once() retorna os dados lidos na url
+    //snapshot e um objeto retornado pela leitura
+    ref.once('value').then(snapshot => {
+        //acessa o no filho
+        console.log('child',snapshot.child('-M4tGJNtOxt2mFrOqMZu').val());
+        //checa se existe algo no snapshot
+        console.log('exists()', snapshot.exists());
+        // procura se existe um no filho passado pela url
+        console.log('hasChild() nome', snapshot.hasChild('-M4tGJNtOxt2mFrOqMZu/nome'));
+        console.log('hasChild() coomentario', snapshot.hasChild('-M4tGJNtOxt2mFrOqMZu/comentario'));
+        // procura se existe um filho no no
+        console.log('hasChildren', snapshot.child('-M4tGJNtOxt2mFrOqMZu').hasChildren());
+        //retorna o numero de nos no snapshot
+        console.log('numChildren()', snapshot.numChildren());
+
+        //a chave desse caminho
+        console.log('chave', snapshot.key);
+
+        
+
+        snapshot.forEach(value => {
+            //id
+            console.log('chave', value.key);
+            adicionaCardATela(value.val());
+        });
+    });
 });
 
 /**
