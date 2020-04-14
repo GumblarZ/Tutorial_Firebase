@@ -4,7 +4,10 @@
 var CARD_CONTAINER = document.getElementsByClassName('card-container')[0];
 var NOMES = ["Anderson", "Beatriz", "Caio", "Daniela", "Everton", "Fabiana", "Gabriel", "Hortencia", "Igor", "Joana"];
 var cards = [];
-//var ref = firebase.database().ref('card/');
+// firebase e um objeto global 
+    // database() e um metodo de acesso ao meu real time database
+    // ref() e a referencia do caminho do banco 
+var ref = firebase.database().ref('card/');
 
 /**
  * Botão para cria um card no card-contaier
@@ -15,11 +18,10 @@ function criarCard() {
         idade: Math.floor(Math.random() * 22 + 18),
         curtidas: 0
     };
-    // firebase e um objeto global 
-    // database() e um metodo de acesso ao meu real time database
-    // ref() e a referencia do caminho do banco 
+    
     // set() metodo que cria dados na url passada 
-    firebase.database().ref('card/' + card.nome).set(card).then(() =>{
+    // o metodo child ele acessa no pai criando um no filho.
+    ref.child(card.nome).set(card).then(() =>{
         adicionaCardATela(card);
     });
 };
