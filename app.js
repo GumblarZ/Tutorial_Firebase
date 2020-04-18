@@ -110,14 +110,27 @@ document.addEventListener("DOMContentLoaded", function () {
     //});
 
     //os 2 tambem podem ser usados simultaneamente
-    ref.orderByChild('idade').startAt(20).endAt(30).on('child_added', snapshot => {
-        adicionaCardATela(snapshot.val(), snapshot.key);
-    });
+    //ref.orderByChild('idade').startAt(20).endAt(30).on('child_added', snapshot => {
+    //    adicionaCardATela(snapshot.val(), snapshot.key);
+    //});
 
     //equalTo() retorna valore iguais ao seu parametro
     //ref.orderByChild('idade').equalTo(19).on('child_added', snapshot => {
     //    adicionaCardATela(snapshot.val(), snapshot.key);
     //});
+
+    //limites
+
+    //limitToFirst(number) retorna o limites de valores apartir do primeiro
+    //ref.orderByChild('idade').limitToFirst(3).on('child_added', snapshot =>{
+    //    adicionaCardATela(snapshot.val(), snapshot.key);
+    //});
+
+    //limitToLast(number) retorna os ultimos valores
+    ref.orderByChild('idade').limitToLast(3).on('child_added', snapshot =>{
+        adicionaCardATela(snapshot.val(), snapshot.key);
+    });
+
 });
 
 /**
