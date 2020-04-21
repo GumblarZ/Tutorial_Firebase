@@ -71,6 +71,8 @@ function descurtir(id) {
         //update recebe um objeto (apenas um objeto) e atualiza apenas as propriedades desse objeto
         ref.child(id).update({curtidas: countNumber }).then(() => {
             count.innerText = countNumber;
+        }).catch((err) => {
+            console.log('erro ao descurtir', err);
         });
     };
 };
@@ -81,9 +83,9 @@ function descurtir(id) {
 document.addEventListener("DOMContentLoaded", function () {
 
     //retorna todas as mensagens de acoes do firebase
-    firebase.database.enableLogging(function(message){
-        console.log('[firebase]', message);
-    });
+    //firebase.database.enableLogging(function(message){
+    //    console.log('[firebase]', message);
+    //});
 
     //metodos On();
     //ref.on('value', snapshot => {
