@@ -79,6 +79,12 @@ function descurtir(id) {
  * Espera o evento de que a DOM está pronta para executar algo
  */
 document.addEventListener("DOMContentLoaded", function () {
+
+    //retorna todas as mensagens de acoes do firebase
+    firebase.database.enableLogging(function(message){
+        console.log('[firebase]', message);
+    });
+
     //metodos On();
     //ref.on('value', snapshot => {
     //    snapshot.forEach(value => {
