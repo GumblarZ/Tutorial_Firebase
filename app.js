@@ -4,10 +4,7 @@
 var CARD_CONTAINER = document.getElementsByClassName('card-container')[0];
 var NOMES = ["Anderson", "Beatriz", "Caio", "Daniela", "Everton", "Fabiana", "Gabriel", "Hortencia", "Igor", "Joana"];
 var cards = [];
-// firebase e um objeto global 
-    // database() e um metodo de acesso ao meu real time database
-    // ref() e a referencia do caminho do banco 
-var ref = firebase.database().ref('card/');
+
 
 /**
  * Botão para cria um card no card-contaier
@@ -53,11 +50,13 @@ function curtir(id) {
     var count = card.getElementsByClassName('count-number')[0];
     var countNumber = +count.innerText;
     countNumber = countNumber + 1;
-    // .set Pode ser acessado diretamente o objeto que quer atualizar e passar o valor atualizado 
-    // ou pode-se passar o objeto completo e atualiza-lo com os novos valores nos campos correspondentes
-    ref.child(id + '/curtidas').set(countNumber).then(() => {
-        count.innerText = countNumber;
-    });
+//usando put
+    fetch('https://video-aula-firebase.firebaseio.com/card/'+ id +'/curtidas.json', {
+        body: JSON.stringify(countNumber),
+        method: 'PUT',
+        mode: 'cors'
+  }).catch(err => console.log(err)); 
+    
 };
 
 /**
@@ -71,12 +70,11 @@ function descurtir(id) {
     
     if (countNumber > 0 ) {
         countNumber = countNumber - 1;
-        //update recebe um objeto (apenas um objeto) e atualiza apenas as propriedades desse objeto
-        ref.child(id).update({curtidas: countNumber }).then(() => {
-            count.innerText = countNumber;
-        }).catch((err) => {
-            console.log('erro ao descurtir', err);
-        });
+        fetch('https://video-aula-firebase.firebaseio.com/card/'+ id +'/curtidas.json', {
+            body: JSON.stringify(countNumber),
+            method: 'PUT',
+            mode: 'cors'
+        }).catch(err => console.log(err));
     };
 };
 
