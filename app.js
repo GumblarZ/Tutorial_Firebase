@@ -18,12 +18,13 @@ function criarCard() {
         idade: Math.floor(Math.random() * 22 + 18),
         curtidas: 0
     };
-    
-    // set() metodo que cria dados na url passada 
-    //metodo push e um metodo que cria um id unico, gerado em um hash de acordo com o date time que foi postado
-    ref.push(card).then(snapshot =>{
-        //adicionaCardATela(card, snapshot.key);
-    });
+  //postando em http
+  fetch('https://video-aula-firebase.firebaseio.com/card.json', {
+    body: JSON.stringify(card),
+    method: 'POST',
+    mode: 'no-cors',
+  }).catch(err => console.log(err)); 
+  
 };
 
 /**
@@ -32,13 +33,15 @@ function criarCard() {
  */
 function deletar(id) {
     var card = document.getElementById(id);
-    //remove() remove o no com tds os nos filhos
-    ref.child(id).remove().then(() => {
-        card.remove();
-    });
 
-    //set(null) ao setar um no em nulo exclui esse no do firebase
-    //ref.child(id).set(null).then(() =>{    card.remove();});
+    //deletando usando fetch
+      fetch('https://video-aula-firebase.firebaseio.com/card/'+ id +'.json', {
+        body: JSON.stringify(card),
+        method: 'DELETE',
+        mode: 'cors'
+  }).catch(err => console.log(err)); 
+
+   
 };
 
 /**
@@ -82,70 +85,15 @@ function descurtir(id) {
  */
 document.addEventListener("DOMContentLoaded", function () {
 
-    //retorna todas as mensagens de acoes do firebase
-    //firebase.database.enableLogging(function(message){
-    //    console.log('[firebase]', message);
-    //});
-
-    //metodos On();
-    //ref.on('value', snapshot => {
-    //    snapshot.forEach(value => {
-    //        adicionaCardATela(value.val(), value.key);
-    //    });
-    //});
-    //ref.on('child_added', snapshot => {
-    //    adicionaCardATela(snapshot.val(),snapshot.key);
-    //});
-
-    //ref.on('child_changed', (snapshot, uid) => {
-    //    console.log(snapshot.key, uid);
-    //}); 
-
-    //ref.on('child_removed', (snapshot, uid) => {
-    //    console.log('remove', uid);
-    //});  
-
-    //filtro
-
-    //startAt ele conta apartir de um determinado valor no caso abaixo acima de 25
-    //ref.orderByChild('idade').startAt(25).on('child_added', snapshot => {
-    //    adicionaCardATela(snapshot.val(), snapshot.key);
-    //});
-
-    //endAt ele retorna um valor abaixo do estipulado no seu parametro
-    //ref.orderByChild('idade').endAt(25).on('child_added', snapshot => {
-    //    adicionaCardATela(snapshot.val(), snapshot.key);
-    //});
-
-    //os 2 tambem podem ser usados simultaneamente
-    //ref.orderByChild('idade').startAt(20).endAt(30).on('child_added', snapshot => {
-    //    adicionaCardATela(snapshot.val(), snapshot.key);
-    //});
-
-    //equalTo() retorna valore iguais ao seu parametro
-    //ref.orderByChild('idade').equalTo(19).on('child_added', snapshot => {
-    //    adicionaCardATela(snapshot.val(), snapshot.key);
-    //});
-
-    //limites
-
-    //limitToFirst(number) retorna o limites de valores apartir do primeiro
-    //ref.orderByChild('idade').limitToFirst(3).on('child_added', snapshot =>{
-    //    adicionaCardATela(snapshot.val(), snapshot.key);
-    //});
-
-    //limitToLast(number) retorna os ultimos valores
-    //ref.limitToLast(20).on('child_added', snapshot =>{
-    //    adicionaCardATela(snapshot.val(), snapshot.key);
-    //});
-
-    //remove um observavel do programa
-    ref.on('value', snapshot => {
-        snapshot.forEach(value => {
-            adicionaCardATela(value.val(), value.key);
-        });
-        ref.off();
-    });
+    //buscando com fetch
+    fetch('https://video-aula-firebase.firebaseio.com/card.json')
+    .then(res => res.json())
+    .then(res => {
+        console.log('response', res);
+        for(var key in res) {
+            adicionaCardATela(res[key],key);
+        };
+    })
 
 });
 
